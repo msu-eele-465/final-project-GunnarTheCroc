@@ -1,0 +1,95 @@
+// main controller (fsm)
+ports
+inputs:
+    switch (1 port)
+    button (1 port)
+outputs
+    servo PWM (1 port)
+    buzzer (1 port)
+    sub controller communication (2 ports)
+        turn display on (1 port)
+        display in english/japanese (1 port)
+
+// states
+// 0 = Idle
+// 1 = Arriving
+// 2 = Japanese/English
+// 3 = Departing
+
+int state = 0
+
+while(true) {
+    while(state = 0) {
+        servo = 0 degree angle
+        buzzer = off
+        LCD = blank
+        if (button = pressed) {
+            state = 1
+            counter = 5s
+        }
+    }
+    
+    while(state = 1) {
+        servo = 90 degree angle
+        buzzer = on
+        LCD = blank
+        decrement counter
+        if (counter = 0s) {
+            state = 2
+        }
+    }
+    
+    while(state = 2) {
+        servo = 90 degree angle
+        buzzer = off
+        if (switch = on) {
+            LCD = Japanese
+        } else {
+            LCD = English
+        }
+        if (button = pressed) {
+            state = 3
+            counter = 5s
+        }
+    }
+
+    while(state = 3) {
+        servo = 90 degree angle
+        buzzer = on
+        LCD = blank
+        decrement counter
+        if (counter = 0s) {
+            state = 1
+        }
+    }
+}
+    
+
+
+// sub controller (lcd)
+ports
+inputs:
+    main controller communication (2 ports)
+        turn display on (1 port)
+        display in english/japanese (1 port)
+outputs:
+    LCD (7 ports)
+        RS (1 port)
+        RW (1 port)
+        EN (1 port)
+        DB7-DB4 (4 ports)
+
+// assume previous LCD functionality
+while(true) {
+    if (display = off) {
+        clear()
+    } else {
+        if (language = JP) {
+            write("ギンザライン")
+            write("ミナミホウメン")
+        } else {
+            write(Ginza Line)
+            write(Southbound)
+        }
+    }
+}
