@@ -17,6 +17,7 @@ int main(void)
 	// setup IRQ
 	P3IFG &= ~BIT0;
 	P3IE |= BIT0;
+	pwm_timer_setup();
 	__enable_interrupt();
 
     while (true) {
@@ -25,6 +26,7 @@ int main(void)
 		while(state == 0) {
 			buzzer_off();
 			screen_off();
+			servo_open();
 			if (train_action == true) {
 				state = 1;
 			}
@@ -35,6 +37,7 @@ int main(void)
 			train_action = false;
 			buzzer_on();
 			screen_off();
+			servo_closed();
 			if (counter == 0) {
 				state = 2;
     			__delay_cycles(5000000);
@@ -45,6 +48,7 @@ int main(void)
 		while(state == 2) {
 			buzzer_off();
 			poll_switch();
+			servo_closed();
 			if (language == 0) {
 				lang_en();
 			} else {
@@ -61,6 +65,7 @@ int main(void)
 			train_action = false;
 			buzzer_on();
 			screen_off();
+			servo_closed();
 			if (counter == 0) {
 				state = 0;
     			__delay_cycles(5000000);
@@ -69,9 +74,22 @@ int main(void)
     }
 }
 
-//-------------------Interrupt Service Routines
+//-------------------Interrupt Service Routines-------
+// arrival/depart button
 #pragma vector = PORT3_VECTOR
-__interrupt void ISR_Port3_S1(void) {
+__interrupt void ISR_Arrive_Depart(void) {
 	train_action = true;
 	P3IFG &= ~BIT0;
 }
+
+#pragma vector = TIMER0_B0_VECTOR
+__interrupt void ISR_PWM_Long(void) {
+	pwm_high();
+	TB0CCTL0 &= ~CCIFG;
+}
+
+#pragma vector = TIMER0_B1_VECTOR
+__interrupt void ISR_PWM_Short(void) {
+	pwm_low();
+	TB0CCTL1 &= ~CCIFG;
+} 
