@@ -32,18 +32,20 @@ int main(void)
 
 		// arrival state
 		while(state == 1) {
+			train_action = false;
 			buzzer_on();
 			screen_off();
 			if (counter == 0) {
 				state = 2;
+    			__delay_cycles(5000000);
 			}
 		}
 
 		// english-japanese state
 		while(state == 2) {
-			train_action = false;
 			buzzer_off();
-			if (english) {
+			poll_switch();
+			if (language == 0) {
 				lang_en();
 			} else {
 				lang_jp();
@@ -56,10 +58,12 @@ int main(void)
 
 		// departing state
 		while(state == 3) {
+			train_action = false;
 			buzzer_on();
 			screen_off();
 			if (counter == 0) {
 				state = 0;
+    			__delay_cycles(5000000);
 			}
 		}
     }

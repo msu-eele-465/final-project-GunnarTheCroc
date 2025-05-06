@@ -1,6 +1,7 @@
 #include <msp430.h>
 
 bool english = false;
+int language = 0;
 bool train_action = false;
 int counter = 0;
 int state = 0;
@@ -12,6 +13,11 @@ void init_ports() {
     P3REN |= BIT0;  
     P3OUT |= BIT0;  
     P3IES |= BIT0;
+
+    // switch
+    P3DIR &= ~BIT1; 
+    P3REN |= BIT1;  
+    P3OUT |= BIT1; 
 
     // servo PWM
     P5DIR |= BIT0;
@@ -29,6 +35,11 @@ void init_ports() {
     P5DIR |= BIT3;
     P5OUT &= ~BIT3;
     
+}
+
+void poll_switch() {
+    language = P3IN;
+    language &= BIT1;
 }
 
 void buzzer_on() {
