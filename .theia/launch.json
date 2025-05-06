@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "LCD-Slave",
+            "type": "ccs-debug",
+            "request": "launch",
+            "projectInfo": {
+                "name": "LCD-Slave",
+                "resourceId": "/LCD-Slave"
+            }
+        }
+    ]
+}
