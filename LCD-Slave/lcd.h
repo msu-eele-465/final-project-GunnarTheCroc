@@ -121,7 +121,7 @@ void start_up() {
     set_nibble(0b0000);
     enable_pulse();
     __delay_cycles(100000);
-    set_nibble(0b1111);
+    set_nibble(0b1100);
     enable_pulse();
     __delay_cycles(100000);
 
@@ -195,10 +195,41 @@ void location_by_coords(int row, int column) {
 } 
 
 void write_word(char *word) {
-    location_by_coords(1, 1);
     int i;
     for (i = 0; word[i] != '\0'; i++) {
         write_by_ascii(word[i]);
     }
+}
+
+void eng_text() {
+    location_by_coords(1, 1);
+    write_word("Ginza Line");
+    location_by_coords(2, 1);
+    write_word("Southbound");
+}
+
+void jp_text() {
+    location_by_coords(1, 1);
+    write_character(0b1011, 0b0111); // ki
+    write_character(0b1101, 0b1110); // tenten
+    write_character(0b1101, 0b1101); // n
+    write_character(0b1011, 0b1011); // sa
+    write_character(0b1101, 0b1110); // tenten
+    write_by_ascii(32);              // space
+    write_character(0b1101, 0b0111); // ra
+    write_character(0b1011, 0b0010); // i
+    write_character(0b1101, 0b1101); // n
+    write_by_ascii(32);              // space
+    location_by_coords(2, 1);
+    write_character(0b1101, 0b0000); // mi
+    write_character(0b1100, 0b0101); // na
+    write_character(0b1101, 0b0000); // mi
+    write_by_ascii(32);              // space
+    write_character(0b1100, 0b1110); // ho
+    write_character(0b1011, 0b0011); // u
+    write_character(0b1101, 0b0010); // me
+    write_character(0b1101, 0b1101); // n
+    write_by_ascii(32);              // space
+    write_by_ascii(32);              // space
 }
 

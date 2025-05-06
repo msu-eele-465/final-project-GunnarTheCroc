@@ -16,12 +16,20 @@ int main(void)
     while (true) {
 
         start_up();
-        start_up();
 
+        bool screen = true;
+        bool english = false;
 
         while (true) {
-            clear_display();
-            write_word("Ginza Line");
+            if (screen) {
+                if (english) {
+                    eng_text();
+                } else {
+                    jp_text();
+                }
+            } else {
+                clear_display();
+            }
         }
     }
 }
