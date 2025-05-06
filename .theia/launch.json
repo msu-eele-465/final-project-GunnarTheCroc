@@ -2,17 +2,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "CCS Debug",
-            "type": "ccs-debug",
-            "request": "launch"
-        },
-        {
-            "name": "main-controller",
+            "name": "LCD-Slave",
             "type": "ccs-debug",
             "request": "launch",
             "projectInfo": {
-                "name": "main-controller",
-                "resourceId": "/main-controller"
+                "name": "LCD-Slave",
+                "resourceId": "/LCD-Slave"
             }
         }
     ]
