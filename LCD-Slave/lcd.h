@@ -1,7 +1,7 @@
 #include <msp430fr2310.h>
 
 void define_ports(void) {
-    // data nibble DB7-BD4 (P1.0-1.3)
+    // data nibble DB7-BD4 (P1.0-1.1, P2.6-2.7)
     P1DIR |= BIT0;
     P1OUT &= ~BIT0;
     P1DIR |= BIT1;
@@ -10,11 +10,6 @@ void define_ports(void) {
     P2OUT &= ~BIT6;
     P2DIR |= BIT7;
     P2OUT &= ~BIT7;
-
-    // logic circuit power supply (P1.4)
-    // this does nothing bc I'm not powering from GPIO pin anymore lol
-    P1OUT &= ~BIT4;
-    P1DIR |= BIT4;
 
     // RS (P1.5)
     P1DIR |= BIT5;
@@ -27,6 +22,17 @@ void define_ports(void) {
     // Enable (P1.7)
     P1DIR |= BIT7;
     P1OUT &= ~BIT7;
+
+    // logic inputs
+    // screen on/off (P1.2)
+    P1DIR &= ~BIT2;
+    P1REN |= BIT2;
+    P1OUT |= BIT2;
+
+    // language select (P1.3)
+    P1DIR &= ~BIT3;
+    P1REN |= BIT3;
+    P1OUT |= BIT3;
 }
 
 // turns power on
