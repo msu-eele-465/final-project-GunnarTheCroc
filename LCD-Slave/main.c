@@ -27,7 +27,7 @@ int main(void)
             english = P1IN;
             english &= BIT3;
 
-            if (screen == 0) {
+            if (screen != 0) {
                 if (english == 0) {
                     eng_text();
                 } else {
