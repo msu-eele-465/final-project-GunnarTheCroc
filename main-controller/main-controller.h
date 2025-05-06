@@ -1,5 +1,7 @@
-int button;
-int swtch;
+#include <msp430.h>
+
+bool english = false;
+bool train_action = false;
 int counter = 0;
 int state = 0;
 
@@ -9,11 +11,7 @@ void init_ports() {
     P3DIR &= ~BIT0; 
     P3REN |= BIT0;  
     P3OUT |= BIT0;  
-
-    // switch
-    P3DIR &= ~BIT1; 
-    P3REN |= BIT1;  
-    P3OUT |= BIT1;  
+    P3IES |= BIT0;
 
     // servo PWM
     P5DIR |= BIT0;
@@ -31,16 +29,6 @@ void init_ports() {
     P5DIR |= BIT3;
     P5OUT &= ~BIT3;
     
-}
-
-void poll_button() {
-	button = P3IN;
-	button &= BIT0;
-}
-
-void poll_switch() {
-	swtch = P3IN;
-	swtch &= BIT1;
 }
 
 void buzzer_on() {

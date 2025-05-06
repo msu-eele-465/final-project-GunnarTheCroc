@@ -1,4 +1,4 @@
-#include <msp430fr2355.h>
+#include <msp430.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include "intrinsics.h"
@@ -14,14 +14,18 @@ int main(void)
     // Disable low-power mode / GPIO high-impedance
     PM5CTL0 &= ~LOCKLPM5;
 
+	// setup IRQ
+	P3IFG &= ~BIT0;
+	P3IE |= BIT0;
+	__enable_interrupt();
+
     while (true) {
 
 		// idle state
 		while(state == 0) {
 			buzzer_off();
 			screen_off();
-			poll_button();
-			if (button == 0) {
+			if (train_action == true) {
 				state = 1;
 			}
 		}
@@ -37,16 +41,15 @@ int main(void)
 
 		// english-japanese state
 		while(state == 2) {
+			train_action = false;
 			buzzer_off();
-			poll_switch();
-			if (swtch == 0) {
-				lang_jp();
-			} else {
+			if (english) {
 				lang_en();
+			} else {
+				lang_jp();
 			}
 			screen_on();
-			poll_button();
-			if (button == 0) {
+			if (train_action == true) {
 				state = 3;
 			}
 		}
@@ -60,4 +63,11 @@ int main(void)
 			}
 		}
     }
+}
+
+//-------------------Interrupt Service Routines
+#pragma vector = PORT3_VECTOR
+__interrupt void ISR_Port3_S1(void) {
+	train_action = true;
+	P3IFG &= ~BIT0;
 }

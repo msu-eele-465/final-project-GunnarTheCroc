@@ -5,6 +5,15 @@
             "name": "CCS Debug",
             "type": "ccs-debug",
             "request": "launch"
+        },
+        {
+            "name": "main-controller",
+            "type": "ccs-debug",
+            "request": "launch",
+            "projectInfo": {
+                "name": "main-controller",
+                "resourceId": "/main-controller"
+            }
         }
     ]
 }
